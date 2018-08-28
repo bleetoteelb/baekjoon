@@ -10,35 +10,27 @@ int main(){
 	int N; //application number <=100000
 	cin >> T;
 	pair<int,int> *score;
-	bool *good;
 	int pass = 0;
 	int f_ele, s_ele;
+	int last_high = 0;
 	for(int a=0;a<T;a++){
 		cin >> N;
-		score = new pair<int,int>[N];
-		good = new bool[N];
+		score = new pair<int,int>[N+1];
 		for(int i=0;i<N;i++){
 			cin >> f_ele >> s_ele;
-			score[i] = make_pair(f_ele,s_ele);
-			good[i] = false;
-			for(int j=0;j<i;j++){
-				if(score[i].first<score[j].first||score[i].second<score[j].score) good[i] = true;
-				else good[j] = true;
-			}
+			score[f_ele] = make_pair(f_ele,s_ele);
 		}
+		last_high = 100001;
 		pass = 0;
-		for(int i=0;i<N;i++){
-			int good = 1;
-			for(int ii=0;ii<N;ii++){
-				if(i==ii) continue;
-				if(score[i][0]>score[ii][0]&&score[i][1]>score[ii][1]) good = 0;
+		for(int i=1;i<N+1;i++){
+			if(score[i].second<last_high) {
+				pass++;
+				last_high = score[i].second;
 			}
-			if(good==1) pass++;
 		}
 		cout << pass << "\n";
 
 		delete [] score;
-		delete [] good;
 	}
 
 }
